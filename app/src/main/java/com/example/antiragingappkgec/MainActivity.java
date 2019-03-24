@@ -26,10 +26,10 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
     Auth authenticator=new Auth();
     EditText username,password;
-    final static String url="http://192.168.42.97:2000";//IP address of the Backend server Connected to a P2P enabled Network and accessible from the development test Device
+    final static String url="http://192.168.42.26:2000";//IP address of the Backend server Connected to a P2P enabled Network and accessible from the development test Device
     RequestQueue requestQueue;
     JsonObjectRequest getProfile;
-    public JsonObjectRequest postLoginf(String usernameStr,String passwordStr){
+        public JsonObjectRequest postLoginf(String usernameStr,String passwordStr){
         JsonObjectRequest postLogin=new JsonObjectRequest(
             Request.Method.POST,
             url + "/passauth/login?username="+usernameStr+"&password="+passwordStr,
