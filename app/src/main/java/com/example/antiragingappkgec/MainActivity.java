@@ -1,15 +1,12 @@
 package com.example.antiragingappkgec;
 
-import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -20,13 +17,10 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class MainActivity extends AppCompatActivity {
     Auth authenticator=new Auth();
     EditText username,password;
-    final static String url="http://192.168.42.26:2000";//IP address of the Backend server Connected to a P2P enabled Network and accessible from the development test Device
+    final static String url="http://192.168.42.76:2000";//IP address of the Backend server Connected to a P2P enabled Network and accessible from the development test Device
     RequestQueue requestQueue;
     JsonObjectRequest getProfile;
         public JsonObjectRequest postLoginf(String usernameStr,String passwordStr){
@@ -40,8 +34,13 @@ public class MainActivity extends AppCompatActivity {
                     try {
                         authenticator.token=response.getString("token");
                         Log.e("Rest API Login Token", response.getString("token"));
+                        Toast toast=Toast.makeText(getApplicationContext(),"Authentication Token="+authenticator.token,Toast.LENGTH_SHORT);
+                        toast.show();
+
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        Toast toast=Toast.makeText(getApplicationContext(),"Authentication Token Was not created Due to JSON Error",Toast.LENGTH_SHORT);
+                        toast.show();
                     }
                 }
             },
@@ -49,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                 Log.e("RestAPI Login Error",error.toString());
+                    Toast toast=Toast.makeText(getApplicationContext(),"Authentication Token Was not created due to invalid credentials",Toast.LENGTH_SHORT);
+                    toast.show();
             }
         });
         return postLogin;
@@ -121,5 +122,6 @@ public class MainActivity extends AppCompatActivity {
     {
         Log.e("Credentials",username.getText()+"&&"+password.getText());
         requestQueue.add(this.postLoginf(username.getText().toString(),password.getText().toString()));
+
     }
 }
